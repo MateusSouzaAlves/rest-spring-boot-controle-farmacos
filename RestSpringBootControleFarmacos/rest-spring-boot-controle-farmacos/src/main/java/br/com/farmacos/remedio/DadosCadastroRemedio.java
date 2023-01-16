@@ -1,5 +1,19 @@
 package br.com.farmacos.remedio;
 
-public record DadosCadastroRemedio(String nome, String via, String lote, String validade, Laboratorio laboratorio) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record DadosCadastroRemedio(
+		
+		@NotBlank
+		String nome,
+		@NotNull
+		Via via,
+		@NotBlank
+		String lote,
+		@NotBlank
+		String validade,
+		@NotNull
+		Laboratorio laboratorio) {
 
 }
