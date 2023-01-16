@@ -1,5 +1,9 @@
 package br.com.farmacos.remedio;
 
+import java.time.LocalDate;
+
+import org.springframework.cglib.core.Local;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,7 +29,7 @@ public class Remedio {
 	private long id;
 	private String nome;
 	private String lote;
-	private String validade;
+	private LocalDate validade;
 	
 	@Enumerated(EnumType.STRING)
 	private Laboratorio laboratorio;
