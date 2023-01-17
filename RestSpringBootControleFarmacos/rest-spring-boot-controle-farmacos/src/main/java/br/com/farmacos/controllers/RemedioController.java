@@ -1,5 +1,8 @@
 package br.com.farmacos.controllers;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.farmacos.remedio.DadosAtualizacaoRemedio;
 import br.com.farmacos.remedio.DadosCadastroRemedio;
 import br.com.farmacos.remedio.DadosListagemRemedios;
+import br.com.farmacos.remedio.DadosRemedio;
 import br.com.farmacos.remedio.Remedio;
 import br.com.farmacos.remedio.RemedioRepository;
 import jakarta.transaction.Transactional;
@@ -39,6 +43,12 @@ public class RemedioController {
 	public Page<DadosListagemRemedios> listar (Pageable paginacao){
 		return repository.findAllByAtivoTrue(paginacao).map(DadosListagemRemedios::new);
 	}
+	
+	@GetMapping("/{id}")
+	public Optional<DadosRemedio> buscarPorId(@PathVariable Long id) {
+		return repository.findById(id).map(DadosRemedio::new);
+	}
+	
 	
 	@PutMapping
 	@Transactional
