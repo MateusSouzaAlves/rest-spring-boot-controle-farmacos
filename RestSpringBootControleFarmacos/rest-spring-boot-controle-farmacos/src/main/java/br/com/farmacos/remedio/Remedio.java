@@ -21,7 +21,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of="id")
+
 public class Remedio {
+	
+	
 	
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +32,7 @@ public class Remedio {
 	private String nome;
 	private String lote;
 	private LocalDate validade;
+	private Boolean ativo;
 	
 	@Enumerated(EnumType.STRING)
 	private Laboratorio laboratorio;
@@ -37,6 +41,7 @@ public class Remedio {
 	private Via via;
 
 	public Remedio(DadosCadastroRemedio dados) {
+		this.ativo = true;
 		this.nome = dados.nome();
 		this.lote = dados.lote();
 		this.validade = dados.validade();
@@ -55,6 +60,10 @@ public class Remedio {
 			this.via = dados.via();
 		}
 		
+	}
+
+	public void excluir() {
+		this.ativo = false;
 	}
 
 	

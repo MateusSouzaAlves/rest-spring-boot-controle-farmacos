@@ -3,7 +3,9 @@ package br.com.farmacos.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +37,7 @@ public class RemedioController {
 	
 	@GetMapping
 	public Page<DadosListagemRemedios> listar (Pageable paginacao){
-		return repository.findAll(paginacao).map(DadosListagemRemedios::new);
+		return repository.findAllByAtivoTrue(paginacao).map(DadosListagemRemedios::new);
 	}
 	
 	@PutMapping
@@ -43,7 +45,22 @@ public class RemedioController {
 	public void atualizar(@RequestBody @Valid DadosAtualizacaoRemedio dados) {
 		var remedio = repository.getReferenceById(dados.id());
 		remedio.atualizarInformacoes(dados);
+	}
+	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public void Inativar(@PathVariable Long id) {
+		var remedio = repository.getReferenceById(id);
+		remedio.excluir();
 		
 	}
+	
+	/*@DeleteMapping("/{id}")
+	@Transactional
+	public void Excluir (@PathVariable Long id) {
+		repository.deleteById(id);
+	}*/
+	
+	
 	
 }
