@@ -1,6 +1,5 @@
 package br.com.farmacos.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class RemedioController {
 		remedio.atualizarInformacoes(dados);
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/inativando/{id}")
 	@Transactional
 	public void Inativar(@PathVariable Long id) {
 		var remedio = repository.getReferenceById(id);
@@ -65,11 +64,11 @@ public class RemedioController {
 		
 	}
 	
-	/*@DeleteMapping("/{id}")
+	@DeleteMapping("/{id}")
 	@Transactional
 	public void Excluir (@PathVariable Long id) {
 		repository.deleteById(id);
-	}*/
+	}
 	
 	
 	
