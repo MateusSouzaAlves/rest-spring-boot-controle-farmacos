@@ -2,8 +2,6 @@ package br.com.farmacos.remedio;
 
 import java.time.LocalDate;
 
-import org.springframework.cglib.core.Local;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +32,7 @@ public class Remedio {
 	
 	@Enumerated(EnumType.STRING)
 	private Laboratorio laboratorio;
+	
 	@Enumerated(EnumType.STRING)
 	private Via via;
 
@@ -42,6 +42,19 @@ public class Remedio {
 		this.validade = dados.validade();
 		this.laboratorio = dados.laboratorio();
 		this.via = dados.via();
+	}
+
+	public void atualizarInformacoes(@Valid DadosAtualizacaoRemedio dados) {
+		if(dados.nome() != null) {
+		this.nome = dados.nome();
+		}
+		if(dados.laboratorio() != null) {
+			this.laboratorio = dados.laboratorio();
+		}
+		if(dados.via() != null) {
+			this.via = dados.via();
+		}
+		
 	}
 
 	
