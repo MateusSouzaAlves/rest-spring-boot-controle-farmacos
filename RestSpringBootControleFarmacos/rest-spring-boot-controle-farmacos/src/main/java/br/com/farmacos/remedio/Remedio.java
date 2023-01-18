@@ -62,8 +62,13 @@ public class Remedio {
 		
 	}
 
-	public void excluir() {
+	public void setInativo() {
 		this.ativo = false;
+	}
+	
+	public void setAtivo() {
+		
+		this.ativo = true;
 	}
 
 	

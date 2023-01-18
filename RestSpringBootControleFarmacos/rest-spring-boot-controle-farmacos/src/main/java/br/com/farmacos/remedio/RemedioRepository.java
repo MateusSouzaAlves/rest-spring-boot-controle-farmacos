@@ -9,3 +9,4 @@ public interface RemedioRepository extends JpaRepository<Remedio, Long>{
 	Page<Remedio> findAllByAtivoTrue(Pageable paginacao);
 
 }
+
