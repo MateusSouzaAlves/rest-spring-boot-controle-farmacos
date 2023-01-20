@@ -14,9 +14,20 @@ public record DadosCadastroRemedio(
 		Via via,
 		@NotBlank
 		String lote,
+		
+		int quantidade,
+		
 		@Future
 		LocalDate validade,
 		@NotNull
-		Laboratorio laboratorio) {
+		Laboratorio laboratorio
+		) {
+
+	public String Getnome() {
+		return nome;
+	}
+	
+	
+	
 
 }

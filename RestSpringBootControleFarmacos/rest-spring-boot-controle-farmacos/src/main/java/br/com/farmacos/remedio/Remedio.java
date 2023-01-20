@@ -25,14 +25,13 @@ import lombok.NoArgsConstructor;
 public class Remedio {
 	
 	
-	
-	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String nome;
 	private String lote;
 	private LocalDate validade;
 	private Boolean ativo;
+	private int quantidade;
 	
 	@Enumerated(EnumType.STRING)
 	private Laboratorio laboratorio;
@@ -47,6 +46,7 @@ public class Remedio {
 		this.validade = dados.validade();
 		this.laboratorio = dados.laboratorio();
 		this.via = dados.via();
+		this.quantidade = dados.quantidade();
 	}
 
 	public void atualizarInformacoes(@Valid DadosAtualizacaoRemedio dados) {
@@ -69,6 +69,23 @@ public class Remedio {
 	public void setAtivo() {
 		
 		this.ativo = true;
+	}
+
+	public void addQuantidade(int quantidade) {
+		if(quantidade <= 0) {
+			throw new IllegalArgumentException("A quantidade precisa ser positiva.");
+		}
+		this.quantidade += quantidade;
+	}
+
+	public void removeQuantidade(int quantidade) {
+		if(quantidade <= 0) {
+			throw new IllegalArgumentException("A quantidade precisa ser positiva.");
+		}
+		if(this.quantidade - quantidade < 0) {
+			throw new IllegalArgumentException("A quantidade não pode ser maior do que a existente em estoque.");
+		}
+		this.quantidade -= quantidade;
 	}
 
 	
