@@ -39,11 +39,11 @@ public class RemedioController {
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroRemedio dados,
 			UriComponentsBuilder uriBuilder) {
 		var remedioExistente = repository.findByNome(dados.Getnome());
-		if(remedioExistente != null) {
-		return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		if (remedioExistente != null) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
 		var remedio = new Remedio(dados);
-		
+
 		repository.save(remedio);
 
 		var uri = uriBuilder.path("/remedios/{id}").buildAndExpand(remedio.getId()).toUri();
@@ -69,7 +69,7 @@ public class RemedioController {
 		var remedio = repository.findByNome(nome);
 		return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
 	}
-	
+
 	@PutMapping
 	@Transactional
 	public ResponseEntity<DadosDetalhamentoRemedio> atualizar(@RequestBody @Valid DadosAtualizacaoRemedio dados) {
@@ -81,22 +81,18 @@ public class RemedioController {
 	@PutMapping("/removequantidade/{id}")
 	@Transactional
 	public ResponseEntity<?> retiradaDeEstoque(@PathVariable Long id, @RequestBody Integer quantidade) {
-		if (quantidade == null) {
-			return new ResponseEntity<>("Parâmetro quantidade é obrigatório", HttpStatus.BAD_REQUEST);
-		}
+		service.validacaoQuantidade(quantidade);
 		service.removerQuantidade(id, quantidade.intValue());
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping("/adicionaquantidade/{id}")
 	@Transactional
 	public ResponseEntity<?> AdicionaEstoque(@PathVariable long id, @RequestBody Integer quantidade) {
-	    if (quantidade == null) {
-	        return new ResponseEntity<>("Parâmetro quantidade é obrigatório", HttpStatus.BAD_REQUEST);
-	    }
+		service.validacaoQuantidade(quantidade);
 		service.adicionarQuantidade(id, quantidade.intValue());
 		return ResponseEntity.noContent().build();
-		
+
 	}
 
 	@PutMapping("/reativando/{id}")

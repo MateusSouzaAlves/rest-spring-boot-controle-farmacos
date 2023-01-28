@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.farmacos.infra.security.DadosTokenJWT;
 import br.com.farmacos.infra.security.TokenService;
-import br.com.farmacos.usuario.DadosAutenticacao;
+import br.com.farmacos.infra.security.dadosTokenJWT;
+import br.com.farmacos.usuario.DadosAutentificacao;
 import br.com.farmacos.usuario.Usuario;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/login")
-public class AutenticacaoController {
-
+public class AutentificacaoController {
+	
 	@Autowired
 	private AuthenticationManager manager;
 	
@@ -26,14 +26,11 @@ public class AutenticacaoController {
 	private TokenService tokenService;
 	
 	@PostMapping
-	public ResponseEntity<DadosTokenJWT> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
-		var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-		var authentication = manager.authenticate(authenticationToken);
+	public ResponseEntity<dadosTokenJWT> EfetuarLogin(@RequestBody @Valid DadosAutentificacao dados) {
+		var autentificacaoToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+		var autentificacao = manager.authenticate(autentificacaoToken);
+		var tokenJWT = tokenService.gerarToken((Usuario) autentificacao.getPrincipal());
 		
-		var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
-		
-		return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+		return ResponseEntity.ok(new dadosTokenJWT(tokenJWT));
 	}
-	
-	
 }
