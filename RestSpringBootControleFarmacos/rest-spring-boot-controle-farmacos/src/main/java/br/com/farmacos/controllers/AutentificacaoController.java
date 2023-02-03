@@ -13,10 +13,12 @@ import br.com.farmacos.infra.security.TokenService;
 import br.com.farmacos.infra.security.dadosTokenJWT;
 import br.com.farmacos.usuario.DadosAutentificacao;
 import br.com.farmacos.usuario.Usuario;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/login")
+@Tag(name = "Login", description =  "Endpoint de controle de acesso ao token")
 public class AutentificacaoController {
 	
 	@Autowired

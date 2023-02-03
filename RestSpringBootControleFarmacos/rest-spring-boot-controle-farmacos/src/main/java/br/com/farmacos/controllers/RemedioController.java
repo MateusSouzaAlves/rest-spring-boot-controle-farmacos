@@ -22,11 +22,15 @@ import br.com.farmacos.remedio.DadosListagemRemedios;
 import br.com.farmacos.remedio.Remedio;
 import br.com.farmacos.remedio.RemedioRepository;
 import br.com.farmacos.services.RemedioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("remedios")
+@Tag(name = "Remédios", description = "EndPoints para controle de remédios")
 public class RemedioController {
 
 	@Autowired
@@ -36,6 +40,16 @@ public class RemedioController {
 
 	@PostMapping
 	@Transactional
+	@Operation(summary = "Cadastre um remédio",
+	description ="Cadastre um remédio", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroRemedio dados,
 			UriComponentsBuilder uriBuilder) {
 		var remedioExistente = repository.findByNome(dados.Getnome());
@@ -53,18 +67,50 @@ public class RemedioController {
 	}
 
 	@GetMapping
+	@Operation(summary = "Busque todos os remédios cadrastados",
+	description ="Busque todos os remédios cadrastados", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<Page<DadosListagemRemedios>> listar(Pageable paginacao) {
 		var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemRemedios::new);
 		return ResponseEntity.ok(page);
 	}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Busque por um detalhamento de um remédio por id",
+	description ="Busque por um detalhamento de um remédio por id", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<DadosDetalhamentoRemedio> buscarPorId(@PathVariable Long id) {
 		var remedio = repository.getReferenceById(id);
 		return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
 	}
 
 	@GetMapping("/nome/{nome}")
+	@Operation(summary = "Busque por um detalhamento de um remédio por nome",
+	description ="Busque por um detalhamento de um remédio por nome", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<DadosDetalhamentoRemedio> buscarPorNome(@PathVariable String nome) {
 		var remedio = repository.findByNome(nome);
 		return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
@@ -72,6 +118,16 @@ public class RemedioController {
 
 	@PutMapping
 	@Transactional
+	@Operation(summary = "Atualize o cadastro de algum remédio",
+	description ="Atualize o cadastro de algum remédio", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<DadosDetalhamentoRemedio> atualizar(@RequestBody @Valid DadosAtualizacaoRemedio dados) {
 		var remedio = repository.getReferenceById(dados.id());
 		remedio.atualizarInformacoes(dados);
@@ -80,6 +136,17 @@ public class RemedioController {
 
 	@PutMapping("/removequantidade/{id}")
 	@Transactional
+	@Operation(summary = "Remova um valor à quantidade em estoque",
+	description ="Remova a quantidade em estoque", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> retiradaDeEstoque(@PathVariable Long id, @RequestBody Integer quantidade) {
 		service.validacaoQuantidade(quantidade);
 		service.removerQuantidade(id, quantidade.intValue());
@@ -88,6 +155,17 @@ public class RemedioController {
 
 	@PutMapping("/adicionaquantidade/{id}")
 	@Transactional
+	@Operation(summary = "Adicione um valor à quantidade em estoque",
+	description ="Adicione um valor à quantidade em estoque", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> AdicionaEstoque(@PathVariable long id, @RequestBody Integer quantidade) {
 		service.validacaoQuantidade(quantidade);
 		service.adicionarQuantidade(id, quantidade.intValue());
@@ -97,6 +175,17 @@ public class RemedioController {
 
 	@PutMapping("/reativando/{id}")
 	@Transactional
+	@Operation(summary = "Reative o cadastro de um remédio pelo Id",
+	description ="Reative o cadastro de um remédio pelo id", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> Reativar(@PathVariable Long id) {
 		var remedio = repository.findById(id);
 		remedio.get().setAtivo();
@@ -106,6 +195,17 @@ public class RemedioController {
 
 	@DeleteMapping("/inativando/{id}")
 	@Transactional
+	@Operation(summary = "Desative o cadastro de um remédio pelo id",
+	description ="Desative o cadastro de um remédio pelo id", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> Inativar(@PathVariable Long id) {
 		var remedio = repository.getReferenceById(id);
 		remedio.setInativo();
@@ -115,6 +215,16 @@ public class RemedioController {
 
 	@DeleteMapping("/{id}")
 	@Transactional
+	@Operation(summary = "Exclua um remédio",
+	description ="Exclua um remédio", 
+	tags = {"Remédios"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> Excluir(@PathVariable Long id) {
 		repository.deleteById(id);
 		return ResponseEntity.noContent().build();

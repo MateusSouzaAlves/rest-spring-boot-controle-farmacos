@@ -20,11 +20,13 @@ import br.com.farmacos.funcionario.DadosDetalhamentoFuncionario;
 import br.com.farmacos.funcionario.DadosListagemFuncionarios;
 import br.com.farmacos.funcionario.Funcionario;
 import br.com.farmacos.funcionario.FuncionarioRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("funcionarios")
+@Tag(name = "Funcionários", description = "EndPoints para controle de funcionários.")
 public class FuncionarioController {
 
 	@Autowired
