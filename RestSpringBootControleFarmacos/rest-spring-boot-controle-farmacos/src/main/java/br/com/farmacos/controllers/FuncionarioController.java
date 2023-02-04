@@ -20,6 +20,8 @@ import br.com.farmacos.funcionario.DadosDetalhamentoFuncionario;
 import br.com.farmacos.funcionario.DadosListagemFuncionarios;
 import br.com.farmacos.funcionario.Funcionario;
 import br.com.farmacos.funcionario.FuncionarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -34,6 +36,16 @@ public class FuncionarioController {
 
 	@PostMapping
 	@Transactional
+	@Operation(summary = "Cadastre um funcionário",
+	description ="Cadastre um funcionário", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroFuncionario dados,
 			UriComponentsBuilder uriBuilder) {
 
@@ -47,17 +59,49 @@ public class FuncionarioController {
 	}
 
 	@GetMapping
+	@Operation(summary = "Busque todos os funcionários cadrastados",
+	description ="Busque todos os funcionários cadrastados", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public List<DadosListagemFuncionarios> listar() {
 		return repository.findAll().stream().map(DadosListagemFuncionarios::new).toList();
 	}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Busque por um detalhamento de um funcionário por id",
+	description ="Busque por um detalhamento de um funcionário por id", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<DadosDetalhamentoFuncionario> buscarPorIdDetalhado(@PathVariable Long id) {
 		var funcionario = repository.getReferenceById(id);
 		return ResponseEntity.ok(new DadosDetalhamentoFuncionario(funcionario));
 	}
 
 	@GetMapping("/nome/{nome}")
+	@Operation(summary = "Busque por um detalhamento de um funcionário por nome",
+	description ="Busque por um detalhamento de um funcionário por nome", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<DadosDetalhamentoFuncionario> buscarPorNome(@PathVariable String nome) {
 		var funcionario = repository.findByNome(nome);
 		return ResponseEntity.ok(new DadosDetalhamentoFuncionario(funcionario));
@@ -65,6 +109,16 @@ public class FuncionarioController {
 
 	@PutMapping
 	@Transactional
+	@Operation(summary = "Atualize o cadastro de algum funcionário",
+	description ="Atualize o cadastro de algum funcionário", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<DadosDetalhamentoFuncionario> atualizar(
 			@RequestBody @Valid DadosAtualizacaoFuncionario dados) {
 		var funcionario = repository.getReferenceById(dados.id());
@@ -74,6 +128,17 @@ public class FuncionarioController {
 	
 	@PutMapping("/reativando/{id}")
 	@Transactional
+	@Operation(summary = "Reative o cadastro de um funcionário pelo Id",
+	description ="Reative o cadastro de um funcionário pelo id", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> Reativar(@PathVariable Long id) {
 		var funcionario = repository.findById(id);
 		funcionario.get().setAtivo();
@@ -83,6 +148,17 @@ public class FuncionarioController {
 	
 	@DeleteMapping("/inativando/{id}")
 	@Transactional
+	@Operation(summary = "Desative o cadastro de um funcionário pelo id",
+	description ="Desative o cadastro de um funcionário pelo id", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> Inativar(@PathVariable Long id) {
 		var funcionario = repository.getReferenceById(id);
 		funcionario.setInativo();
@@ -92,6 +168,16 @@ public class FuncionarioController {
 	
 	@DeleteMapping("/{id}")
 	@Transactional
+	@Operation(summary = "Exclua um funcionário",
+	description ="Exclua um funcionário", 
+	tags = {"Funcionários"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
 	public ResponseEntity<?> Excluir(@PathVariable Long id) {
 		repository.deleteById(id);
 		return ResponseEntity.noContent().build();

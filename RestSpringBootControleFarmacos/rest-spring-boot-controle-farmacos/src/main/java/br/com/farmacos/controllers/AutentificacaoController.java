@@ -13,6 +13,8 @@ import br.com.farmacos.infra.security.TokenService;
 import br.com.farmacos.infra.security.dadosTokenJWT;
 import br.com.farmacos.usuario.DadosAutentificacao;
 import br.com.farmacos.usuario.Usuario;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -28,6 +30,16 @@ public class AutentificacaoController {
 	private TokenService tokenService;
 	
 	@PostMapping
+	@Operation(summary = "Endpoint para login e validação de acesso",
+	description = "Endpoint para login e validação de acesso",
+	tags = {"Login"},
+	responses = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+	})
+	
 	public ResponseEntity<dadosTokenJWT> EfetuarLogin(@RequestBody @Valid DadosAutentificacao dados) {
 		var autentificacaoToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
 		var autentificacao = manager.authenticate(autentificacaoToken);
