@@ -22,6 +22,8 @@ import br.com.farmacos.funcionario.Funcionario;
 import br.com.farmacos.funcionario.FuncionarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -39,13 +41,14 @@ public class FuncionarioController {
 	@Operation(summary = "Cadastre um funcionário",
 	description ="Cadastre um funcionário", 
 	tags = {"Funcionários"},
-	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
-	})
+			responses = {
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+							mediaType = "application/json")),
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
+			})
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroFuncionario dados,
 			UriComponentsBuilder uriBuilder) {
 
@@ -62,8 +65,11 @@ public class FuncionarioController {
 	@Operation(summary = "Busque todos os funcionários cadrastados",
 	description ="Busque todos os funcionários cadrastados", 
 	tags = {"Funcionários"},
-	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			responses = {
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = DadosListagemFuncionarios.class),
+							examples = @ExampleObject())),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
@@ -77,8 +83,11 @@ public class FuncionarioController {
 	@Operation(summary = "Busque por um detalhamento de um funcionário por id",
 	description ="Busque por um detalhamento de um funcionário por id", 
 	tags = {"Funcionários"},
-	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			responses = {
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = DadosDetalhamentoFuncionario.class),
+							examples = @ExampleObject())),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
@@ -94,8 +103,11 @@ public class FuncionarioController {
 	@Operation(summary = "Busque por um detalhamento de um funcionário por nome",
 	description ="Busque por um detalhamento de um funcionário por nome", 
 	tags = {"Funcionários"},
-	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			responses = {
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = DadosDetalhamentoFuncionario.class),
+							examples = @ExampleObject())),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),

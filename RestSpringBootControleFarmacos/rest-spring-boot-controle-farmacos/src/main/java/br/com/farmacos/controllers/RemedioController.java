@@ -1,8 +1,8 @@
 package br.com.farmacos.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +24,8 @@ import br.com.farmacos.remedio.RemedioRepository;
 import br.com.farmacos.services.RemedioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -44,7 +46,8 @@ public class RemedioController {
 	description ="Cadastre um remédio", 
 	tags = {"Remédios"},
 	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+					mediaType = "application/json")),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
@@ -70,16 +73,19 @@ public class RemedioController {
 	@Operation(summary = "Busque todos os remédios cadrastados",
 	description ="Busque todos os remédios cadrastados", 
 	tags = {"Remédios"},
+	
 	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = DadosListagemRemedios.class),
+							examples = @ExampleObject())),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
 	})
-	public ResponseEntity<Page<DadosListagemRemedios>> listar(Pageable paginacao) {
-		var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemRemedios::new);
-		return ResponseEntity.ok(page);
+	public List<DadosListagemRemedios> listar() {
+		return repository.findAllByAtivoTrue().stream().map(DadosListagemRemedios::new).toList();
 	}
 
 	@GetMapping("/{id}")
@@ -87,7 +93,10 @@ public class RemedioController {
 	description ="Busque por um detalhamento de um remédio por id", 
 	tags = {"Remédios"},
 	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+					mediaType = "application/json",
+					schema = @Schema(implementation = DadosDetalhamentoRemedio.class),
+					examples = @ExampleObject())),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
@@ -103,8 +112,11 @@ public class RemedioController {
 	@Operation(summary = "Busque por um detalhamento de um remédio por nome",
 	description ="Busque por um detalhamento de um remédio por nome", 
 	tags = {"Remédios"},
-	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			responses = {
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = DadosDetalhamentoRemedio.class),
+							examples = @ExampleObject())),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "204",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
@@ -121,8 +133,9 @@ public class RemedioController {
 	@Operation(summary = "Atualize o cadastro de algum remédio",
 	description ="Atualize o cadastro de algum remédio", 
 	tags = {"Remédios"},
-	responses = {
-			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content),
+			responses = {
+					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "200",content = @Content(
+							mediaType = "application/json")),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "400",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "401",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
