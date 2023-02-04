@@ -32,5 +32,9 @@ Tecnologias utilizadas:
 
 -Flyway;
 
--MySql.
+-MySql;
+
+-Swagger.
+
+
 
