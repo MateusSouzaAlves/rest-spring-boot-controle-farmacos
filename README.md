@@ -1,3 +1,7 @@
+ Para ter acesso ao swagger e a documentação da api - > Baixe o projeto, rode em uma IDE de sua preferência e acesse no seu browser a url:
+ 
+ http://localhost:8080/swagger-ui/index.html
+ 
  Uma Api rest para controle de funcionários e medicamentos em um ambiente hospitalar! 
 
 Ela tem suporte para:
