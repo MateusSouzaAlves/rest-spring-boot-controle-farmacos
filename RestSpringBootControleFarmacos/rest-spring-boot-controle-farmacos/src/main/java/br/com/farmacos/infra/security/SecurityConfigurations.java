@@ -22,29 +22,31 @@ public class SecurityConfigurations {
 	@Autowired
 	private SecurityFilter filtroDeSeguranca;
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf().disable()
-	            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	            .and().authorizeHttpRequests()
-	            .requestMatchers(HttpMethod.POST, "/login").permitAll()
-	            .anyRequest().authenticated()
-	            .and().addFilterBefore(filtroDeSeguranca, UsernamePasswordAuthenticationFilter.class)
-	            .build();
-	}
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
-		return configuration.getAuthenticationManager();
-	}
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	 @Bean
-	 WebSecurityCustomizer webSecurityCustomizer() {
-	     return (web) -> web.ignoring().requestMatchers("/swagger-ui/**", "/v3/api-docs/**");
-	 }
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                .anyRequest().authenticated()
+                .and().addFilterBefore(filtroDeSeguranca, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/swagger-ui/**", "/v3/api-docs/**");
+    }
 	
 }

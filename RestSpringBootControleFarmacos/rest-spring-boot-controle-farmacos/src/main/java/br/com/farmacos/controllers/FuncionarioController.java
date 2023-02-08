@@ -49,7 +49,7 @@ public class FuncionarioController {
 					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
 					@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
 			})
-	public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroFuncionario dados,
+	public ResponseEntity<DadosDetalhamentoFuncionario> cadastrar(@RequestBody @Valid DadosCadastroFuncionario dados,
 			UriComponentsBuilder uriBuilder) {
 
 		var funcionario = new Funcionario(dados);
