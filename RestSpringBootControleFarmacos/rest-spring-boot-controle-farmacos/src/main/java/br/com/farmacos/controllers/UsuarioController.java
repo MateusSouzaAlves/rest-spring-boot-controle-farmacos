@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.farmacos.services.PasswordEncryptionService;
 import br.com.farmacos.usuario.DadosCadastroUsuario;
 import br.com.farmacos.usuario.DadosDetalhamentoUsuario;
 import br.com.farmacos.usuario.Usuario;
@@ -26,6 +27,9 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioRepository repository;
 	
+	@Autowired
+	private PasswordEncryptionService senha;
+	
 	@PostMapping
 	@Transactional
 	@Operation(summary = "Cadastre um usuário",
@@ -43,6 +47,9 @@ public class UsuarioController {
 			UriComponentsBuilder uriBuilder){
 		
 		var usuario = new Usuario(dados);
+		
+		String senhaCriptografada = senha.encryptPassword(usuario.getSenha());
+		usuario.setSenha(senhaCriptografada);
 		
 		repository.save(usuario);
 		
