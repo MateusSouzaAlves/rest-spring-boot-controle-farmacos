@@ -3,6 +3,7 @@ package br.com.farmacos.usuario;
 import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.farmacos.endereco.DadosEndereco;
+import br.com.farmacos.services.CpfJaCadastrado;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ public record DadosCadastroUsuario(
 		@Email
 		String email,
 		@CPF
+		@CpfJaCadastrado
 		String cpf,
 		@NotNull
 		@Valid
