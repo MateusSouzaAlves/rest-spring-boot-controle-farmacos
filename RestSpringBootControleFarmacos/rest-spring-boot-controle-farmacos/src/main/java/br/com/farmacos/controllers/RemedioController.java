@@ -53,7 +53,7 @@ public class RemedioController {
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "404",content = @Content),
 			@io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "500",content = @Content),
 	})
-	public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroRemedio dados,
+	public ResponseEntity<DadosDetalhamentoRemedio> cadastrar(@RequestBody @Valid DadosCadastroRemedio dados,
 			UriComponentsBuilder uriBuilder) {
 		var remedioExistente = repository.findByNome(dados.Getnome());
 		if (remedioExistente != null) {
